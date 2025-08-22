@@ -1,0 +1,77 @@
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  email     String   @unique
+  password  String
+  name      String
+  role      Role     @default(DOCTOR)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Patient {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  name          String
+  email         String?  @unique
+  phone         String?
+  birthDate     DateTime
+  address       String?
+  medicalHistory MedicalHistory?
+  appointments  Appointment[]
+  odontogram    Odontogram?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model MedicalHistory {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  patientId   String   @db.ObjectId
+  patient     Patient  @relation(fields: [patientId], references: [id])
+  allergies   String?
+  conditions  String?
+  medications String?
+  notes       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Appointment {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  patientId String   @db.ObjectId
+  patient   Patient  @relation(fields: [patientId], references: [id])
+  date      DateTime
+  status    AppointmentStatus @default(SCHEDULED)
+  notes     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Odontogram {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  patientId String   @unique @db.ObjectId
+  patient   Patient  @relation(fields: [patientId], references: [id])
+  data      Json     // Almacenará el estado del odontograma
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum Role {
+  ADMIN
+  DOCTOR
+  ASSISTANT
+}
+
+enum AppointmentStatus {
+  SCHEDULED
+  COMPLETED
+  CANCELLED
+  NO_SHOW
+} 

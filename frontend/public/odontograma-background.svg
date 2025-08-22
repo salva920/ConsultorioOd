@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="820" height="600" viewBox="0 0 820 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="gumGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#FED7D7;stop-opacity:0.6" />
+      <stop offset="100%" style="stop-color:#FEB2B2;stop-opacity:0.8" />
+    </linearGradient>
+    <linearGradient id="toothGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFFFFF;stop-opacity:0.9" />
+      <stop offset="100%" style="stop-color:#F7FAFC;stop-opacity:0.8" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Arcada Superior -->
+  <path d="M 130 120 Q 410 80 690 120 Q 410 160 130 120 Z" 
+        fill="url(#gumGradient)" 
+        stroke="#FEB2B2" 
+        stroke-width="3" 
+        opacity="0.8"/>
+  
+  <!-- Arcada Inferior -->
+  <path d="M 150 480 Q 410 520 670 480 Q 410 440 150 480 Z" 
+        fill="url(#gumGradient)" 
+        stroke="#FEB2B2" 
+        stroke-width="3" 
+        opacity="0.8"/>
+  
+  <!-- Dientes superiores (esquemáticos) -->
+  <!-- Superior Derecho -->
+  <circle cx="180" cy="130" r="10" fill="url(#toothGradient)" stroke="#E2E8F0" stroke-width="2" opacity="0.9"/>
+  <circle cx="220" cy="125" r="10" fill="url(#toothGradient)" stroke="#E2E8F0" stroke-width="2" opacity="0.9"/>
+  <circle cx="260" cy="120" r="10" fill="url(#toothGradient)" stroke="#E2E8F0" stroke-width="2" opacity="0.9"/>
+  <circle cx="300" cy="115" r="10" fill="url(#toothGradient)" stroke="#E2E8F0" stroke-width="2" opacity="0.9"/>
+  <circle cx="340" cy="110" r="10" fill="url(#toothGradient)" stroke="#E2E8F0" stroke-width="2" opacity="0.9"/>
+  <circle cx="380" cy="105" r="10" fill="url(#toothGradient)" stroke="#E2E8F0" stroke-width="2" opacity="0.9"/>
+  <circle cx="420" cy="100" r="10" fill="url(#toothGradient)" stroke="#E2E8F0" stroke-width="2" opacity="0.9"/>
+  <circle cx="460" cy="105" r="10" fill="url(#toothGradient)" stroke="#E2E8F0" stroke-width="2" opacity="0.9"/>
+  
+  <!-- Superior Izquierdo -->
+  <circle cx="500" cy="110" r="10" fill="url(#toothGradient)" stroke="#E2E8F0" stroke-width="2" opacity="0.9"/>
+  <circle cx="540" cy="115" r="10" fill="url(#toothGradient)" stroke="#E2E8F0" stroke-width="2" opacity="0.9"/>
+  <circle cx="580" cy="120" r="10" fill="url(#toothGradient)" stroke="#E2E8F0" stroke-width="2" opacity="0.9"/>
+  <circle cx="620" cy="125" r="10" fill="url(#toothGradient)" stroke="#E2E8F0" stroke-width="2" opacity="0.9"/>
+  <circle cx="660" cy="130" r="10" fill="url(#toothGradient)" stroke="#E2E8F0" stroke-width="2" opacity="0.9"/>
+  <circle cx="700" cy="135" r="10" fill="url(#toothGradient)" stroke="#E2E8F0" stroke-width="2" opacity="0.9"/>
+  <circle cx="740" cy="140" r="10" fill="url(#toothGradient)" stroke="#E2E8F0" stroke-width="2" opacity="0.9"/>
+  <circle cx="780" cy="145" r="10" fill="url(#toothGradient)" stroke="#E2E8F0" stroke-width="2" opacity="0.9"/>
+  
+  <!-- Dientes inferiores (esquemáticos) -->
+  <!-- Inferior Derecho -->
+  <circle cx="180" cy="470" r="10" fill="url(#toothGradient)" stroke="#E2E8F0" stroke-width="2" opacity="0.9"/>
+  <circle cx="220" cy="475" r="10" fill="url(#toothGradient)" stroke="#E2E8F0" stroke-width="2" opacity="0.9"/>
+  <circle cx="260" cy="480" r="10" fill="url(#toothGradient)" stroke="#E2E8F0" stroke-width="2" opacity="0.9"/>
+  <circle cx="300" cy="485" r="10" fill="url(#toothGradient)" stroke="#E2E8F0" stroke-width="2" opacity="0.9"/>
+  <circle cx="340" cy="490" r="10" fill="url(#toothGradient)" stroke="#E2E8F0" stroke-width="2" opacity="0.9"/>
+  <circle cx="380" cy="495" r="10" fill="url(#toothGradient)" stroke="#E2E8F0" stroke-width="2" opacity="0.9"/>
+  <circle cx="420" cy="500" r="10" fill="url(#toothGradient)" stroke="#E2E8F0" stroke-width="2" opacity="0.9"/>
+  <circle cx="460" cy="495" r="10" fill="url(#toothGradient)" stroke="#E2E8F0" stroke-width="2" opacity="0.9"/>
+  
+  <!-- Inferior Izquierdo -->
+  <circle cx="500" cy="490" r="10" fill="url(#toothGradient)" stroke="#E2E8F0" stroke-width="2" opacity="0.9"/>
+  <circle cx="540" cy="485" r="10" fill="url(#toothGradient)" stroke="#E2E8F0" stroke-width="2" opacity="0.9"/>
+  <circle cx="580" cy="480" r="10" fill="url(#toothGradient)" stroke="#E2E8F0" stroke-width="2" opacity="0.9"/>
+  <circle cx="620" cy="475" r="10" fill="url(#toothGradient)" stroke="#E2E8F0" stroke-width="2" opacity="0.9"/>
+  <circle cx="660" cy="470" r="10" fill="url(#toothGradient)" stroke="#E2E8F0" stroke-width="2" opacity="0.9"/>
+  <circle cx="700" cy="465" r="10" fill="url(#toothGradient)" stroke="#E2E8F0" stroke-width="2" opacity="0.9"/>
+  <circle cx="740" cy="460" r="10" fill="url(#toothGradient)" stroke="#E2E8F0" stroke-width="2" opacity="0.9"/>
+  <circle cx="780" cy="455" r="10" fill="url(#toothGradient)" stroke="#E2E8F0" stroke-width="2" opacity="0.9"/>
+  
+  <!-- Líneas de referencia sutiles -->
+  <line x1="0" y1="100" x2="820" y2="100" stroke="#E2E8F0" stroke-width="1" opacity="0.2"/>
+  <line x1="0" y1="200" x2="820" y2="200" stroke="#E2E8F0" stroke-width="1" opacity="0.2"/>
+  <line x1="0" y1="400" x2="820" y2="400" stroke="#E2E8F0" stroke-width="1" opacity="0.2"/>
+  <line x1="0" y1="500" x2="820" y2="500" stroke="#E2E8F0" stroke-width="1" opacity="0.2"/>
+</svg> 

@@ -1,0 +1,236 @@
+const mongoose = require('mongoose');
+require('dotenv').config();
+
+// Conectar a la base de datos usando la variable de entorno
+mongoose.connect(process.env.MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+
+// Mapeo de números del servidor (1-32) al sistema dental internacional (11-48)
+const TOOTH_MAPPING = {
+  // Cuadrante Superior Derecho (1-8 -> 11-18)
+  1: 18, 2: 17, 3: 16, 4: 15, 5: 14, 6: 13, 7: 12, 8: 11,
+  // Cuadrante Superior Izquierdo (9-16 -> 21-28)
+  9: 21, 10: 22, 11: 23, 12: 24, 13: 25, 14: 26, 15: 27, 16: 28,
+  // Cuadrante Inferior Izquierdo (17-24 -> 31-38)
+  17: 31, 18: 32, 19: 33, 20: 34, 21: 35, 22: 36, 23: 37, 24: 38,
+  // Cuadrante Inferior Derecho (25-32 -> 41-48)
+  25: 41, 26: 42, 27: 43, 28: 44, 29: 45, 30: 46, 31: 47, 32: 48
+};
+
+// Posiciones exactas del archivo types.ts (usando números del sistema dental internacional)
+const TODOS_LOS_DIENTES = [
+  // Dientes adicionales (1-10) - Posiciones intermedias
+  { id: 1, posX: 50, posY: 50 },
+  { id: 2, posX: 80, posY: 60 },
+  { id: 3, posX: 110, posY: 70 },
+  { id: 4, posX: 140, posY: 80 },
+  { id: 5, posX: 170, posY: 90 },
+  { id: 6, posX: 200, posY: 100 },
+  { id: 7, posX: 230, posY: 110 },
+  { id: 8, posX: 260, posY: 120 },
+  { id: 9, posX: 290, posY: 130 },
+  { id: 10, posX: 320, posY: 140 },
+
+  // Cuadrante Superior Izquierdo (21–28)
+  { id: 21, posX: 420, posY: 30 },
+  { id: 22, posX: 470, posY: 40 },
+  { id: 23, posX: 520, posY: 55 },
+  { id: 24, posX: 570, posY: 75 },
+  { id: 25, posX: 620, posY: 100 },
+  { id: 26, posX: 670, posY: 130 },
+  { id: 27, posX: 720, posY: 165 },
+  { id: 28, posX: 760, posY: 200 },
+
+  // Dientes adicionales (29-30) - Posiciones intermedias
+  { id: 29, posX: 800, posY: 220 },
+  { id: 30, posX: 830, posY: 240 },
+
+  // Cuadrante Superior Derecho (11-18)
+  { id: 18, posX: 100, posY: 200 },
+  { id: 17, posX: 140, posY: 165 },
+  { id: 16, posX: 180, posY: 130 },
+  { id: 15, posX: 230, posY: 100 },
+  { id: 14, posX: 280, posY: 75 },
+  { id: 13, posX: 330, posY: 55 },
+  { id: 12, posX: 370, posY: 40 },
+  { id: 11, posX: 410, posY: 30 },
+
+  // Cuadrante Inferior Izquierdo (31-38)
+  { id: 31, posX: 450, posY: 520 },
+  { id: 32, posX: 500, posY: 510 },
+  { id: 33, posX: 550, posY: 490 },
+  { id: 34, posX: 600, posY: 475 },
+  { id: 35, posX: 650, posY: 455 },
+  { id: 36, posX: 700, posY: 420 },
+  { id: 37, posX: 750, posY: 390 },
+  { id: 38, posX: 800, posY: 330 },
+
+  // Cuadrante Inferior Derecho (41-48)
+  { id: 41, posX: 350, posY: 520 },
+  { id: 42, posX: 310, posY: 510 },
+  { id: 43, posX: 270, posY: 490 },
+  { id: 44, posX: 230, posY: 475 },
+  { id: 45, posX: 190, posY: 455 },
+  { id: 46, posX: 150, posY: 420 },
+  { id: 47, posX: 110, posY: 390 },
+  { id: 48, posX: 70, posY: 330 },
+
+  // Temporales (51-85)
+  { id: 55, posX: 150, posY: 120 },
+  { id: 54, posX: 200, posY: 120 },
+  { id: 53, posX: 250, posY: 120 },
+  { id: 52, posX: 300, posY: 120 },
+  { id: 51, posX: 350, posY: 120 },
+  { id: 61, posX: 455, posY: 120 },
+  { id: 62, posX: 500, posY: 120 },
+  { id: 63, posX: 550, posY: 120 },
+  { id: 64, posX: 600, posY: 120 },
+  { id: 65, posX: 650, posY: 120 },
+  { id: 85, posX: 150, posY: 480 },
+  { id: 84, posX: 200, posY: 480 },
+  { id: 83, posX: 250, posY: 480 },
+  { id: 82, posX: 300, posY: 480 },
+  { id: 81, posX: 350, posY: 480 },
+  { id: 71, posX: 450, posY: 480 },
+  { id: 72, posX: 500, posY: 480 },
+  { id: 73, posX: 550, posY: 480 },
+  { id: 74, posX: 600, posY: 480 },
+  { id: 75, posX: 650, posY: 480 }
+];
+
+// Función para obtener la posición por defecto de un diente usando el número del sistema dental internacional
+const getDefaultToothPosition = (internationalToothNumber) => {
+  const diente = TODOS_LOS_DIENTES.find(d => d.id === internationalToothNumber);
+  if (diente) {
+    return { posX: diente.posX, posY: diente.posY, rotation: 0 };
+  }
+  return { posX: 0, posY: 0, rotation: 0 };
+};
+
+// Función para calcular la rotación basada en la posición
+const calculateRotation = (internationalToothNumber, posX) => {
+  const centerX = 410; // Centro aproximado del odontograma
+  const relativeX = posX - centerX;
+  
+  // Determinar cuadrante
+  let isUpper = false;
+  if (internationalToothNumber >= 11 && internationalToothNumber <= 28) isUpper = true;
+  if (internationalToothNumber >= 51 && internationalToothNumber <= 75) isUpper = true;
+  
+  let rotation = 0;
+  
+  if (isUpper) {
+    // Arcada superior
+    if (Math.abs(relativeX) < 30) {
+      rotation = 0;
+    } else if (Math.abs(relativeX) < 100) {
+      rotation = relativeX > 0 ? 25 : -25;
+    } else if (Math.abs(relativeX) < 200) {
+      rotation = relativeX > 0 ? 40 : -40;
+    } else {
+      rotation = relativeX > 0 ? 55 : -55;
+    }
+  } else {
+    // Arcada inferior
+    if (Math.abs(relativeX) < 30) {
+      rotation = 0;
+    } else if (Math.abs(relativeX) < 100) {
+      rotation = relativeX > 0 ? -25 : 25;
+    } else if (Math.abs(relativeX) < 200) {
+      rotation = relativeX > 0 ? -40 : 40;
+    } else {
+      rotation = relativeX > 0 ? -55 : 55;
+    }
+  }
+  
+  return rotation;
+};
+
+async function forceUpdateAllTeeth() {
+  try {
+    console.log('🔍 Conectando a MongoDB...');
+    await mongoose.connection.asPromise();
+    console.log('✅ Conectado a MongoDB exitosamente');
+    
+    // Acceder directamente a la colección odontograma.odontogramas
+    const db = mongoose.connection.db;
+    const odontogramasCollection = db.collection('odontogramas');
+    
+    console.log('🔍 Forzando actualización de TODOS los dientes...');
+    
+    const odontogramas = await odontogramasCollection.find({}).toArray();
+    console.log(`📊 Encontrados ${odontogramas.length} odontogramas para procesar`);
+    
+    let totalUpdated = 0;
+    let totalTeethUpdated = 0;
+    
+    for (const odontograma of odontogramas) {
+      console.log(`\n👤 Procesando odontograma para paciente: ${odontograma.patient}`);
+      
+      if (!odontograma.teeth || !Array.isArray(odontograma.teeth)) {
+        console.log('   ⚠️  No tiene array de teeth o está vacío');
+        continue;
+      }
+      
+      let odontogramaUpdated = false;
+      let teethUpdated = 0;
+      
+      for (const tooth of odontograma.teeth) {
+        // Mapear el número del servidor al sistema dental internacional
+        const internationalToothNumber = TOOTH_MAPPING[tooth.number] || tooth.number;
+        const defaultPosition = getDefaultToothPosition(internationalToothNumber);
+        const calculatedRotation = calculateRotation(internationalToothNumber, defaultPosition.posX);
+        
+        // Verificar si las posiciones actuales son diferentes a las correctas
+        const positionsChanged = (
+          tooth.posX !== defaultPosition.posX ||
+          tooth.posY !== defaultPosition.posY ||
+          tooth.rotation !== calculatedRotation
+        );
+        
+        if (positionsChanged) {
+          console.log(`   🦷 Actualizando diente ${tooth.number} (sistema internacional: ${internationalToothNumber}):`);
+          console.log(`      - Posición anterior: posX=${tooth.posX}, posY=${tooth.posY}, rotation=${tooth.rotation}`);
+          console.log(`      - Nueva posición: posX=${defaultPosition.posX}, posY=${defaultPosition.posY}, rotation=${calculatedRotation}`);
+          
+          // Actualizar el diente
+          tooth.posX = defaultPosition.posX;
+          tooth.posY = defaultPosition.posY;
+          tooth.rotation = calculatedRotation;
+          
+          teethUpdated++;
+          odontogramaUpdated = true;
+        }
+      }
+      
+      if (odontogramaUpdated) {
+        // Guardar el odontograma actualizado
+        await odontogramasCollection.updateOne(
+          { _id: odontograma._id },
+          { $set: { teeth: odontograma.teeth } }
+        );
+        
+        console.log(`   ✅ Odontograma actualizado: ${teethUpdated} dientes modificados`);
+        totalUpdated++;
+        totalTeethUpdated += teethUpdated;
+      } else {
+        console.log('   ✅ Odontograma ya tiene las posiciones correctas');
+      }
+    }
+    
+    console.log(`\n🎉 Proceso completado:`);
+    console.log(`   - Odontogramas actualizados: ${totalUpdated}`);
+    console.log(`   - Total de dientes actualizados: ${totalTeethUpdated}`);
+    
+  } catch (error) {
+    console.error('❌ Error durante el proceso:', error);
+  } finally {
+    await mongoose.connection.close();
+    console.log('🔌 Conexión a MongoDB cerrada');
+  }
+}
+
+// Ejecutar el script
+forceUpdateAllTeeth(); 

@@ -1,0 +1,224 @@
+export interface InterventionImage {
+  filename: string;
+  data: string;
+  contentType: string;
+  uploadDate: string;
+  description: string;
+}
+
+export interface Intervention {
+  id: string;
+  date: string;
+  toothNumber: number;
+  procedure: string;
+  notes: string;
+  status: 'completado' | 'pendiente' | 'cancelado';
+  part?: 'todo' | 'superior' | 'inferior' | 'izquierda' | 'derecha' | 'centro';
+  type?: string;
+  images?: InterventionImage[];
+}
+
+export interface Tooth {
+  id: string;
+  number: number;
+  condition: string;
+  notes: string;
+  interventions: Intervention[];
+  type?: 'incisivo' | 'canino' | 'premolar' | 'molar';
+  posX?: number;
+  posY?: number;
+  rotation?: number;
+  size?: { width: number; height: number };
+  cuadrante?: 'superior-derecho' | 'superior-izquierdo' | 'inferior-derecho' | 'inferior-izquierdo';
+  tipoDentadura?: 'permanente' | 'temporal';
+}
+
+export interface OdontogramaProps {
+  patientId: string;
+}
+
+// Configuración completa de todos los dientes (permanentes y temporales)
+export const TODOS_LOS_DIENTES = [
+  { id: 1, posX: 304.3541564941406, posY: 257.8576354980469, tipo: 'molar', tipoDentadura: 'permanente', estado: {}, intervenciones: [], historial: [] },
+  { id: 2, posX: 297, posY: 207.39999771118164, tipo: 'molar', tipoDentadura: 'permanente', estado: {}, intervenciones: [], historial: [] },
+  { id: 3, posX: 304.3541564941406, posY: 167.85763549804688, tipo: 'molar', tipoDentadura: 'permanente', estado: {}, intervenciones: [], historial: [] },
+  { id: 4, posX: 308, posY: 129.4000015258789, tipo: 'premolar', tipoDentadura: 'permanente', estado: {}, intervenciones: [], historial: [] },
+  { id: 5, posX: 320, posY: 92.4000015258789, tipo: 'premolar', tipoDentadura: 'permanente', estado: {}, intervenciones: [], historial: [] },
+  { id: 6, posX: 334.3541564941406, posY: 59.857635498046875, tipo: 'canino', tipoDentadura: 'permanente', estado: {}, intervenciones: [], historial: [] },
+  { id: 7, posX: 355.3541564941406, posY: 46.857635498046875, tipo: 'incisivo', tipoDentadura: 'permanente', estado: {}, intervenciones: [], historial: [] },
+  { id: 8, posX: 391.3541564941406, posY: 33.857635498046875, tipo: 'incisivo', tipoDentadura: 'permanente', estado: {}, intervenciones: [], historial: [] },
+  { id: 9, posX: 422.3541564941406, posY: 35.857635498046875, tipo: 'incisivo', tipoDentadura: 'permanente', estado: {}, intervenciones: [], historial: [] },
+  { id: 10, posX: 458.3541564941406, posY: 49.857635498046875, tipo: 'incisivo', tipoDentadura: 'permanente', estado: {}, intervenciones: [], historial: [] },
+  { id: 21, posX: 512, posY: 487.5999984741211, tipo: 'incisivo', tipoDentadura: 'permanente', estado: {}, intervenciones: [], historial: [] },
+  { id: 22, posX: 517, posY: 450.5999984741211, tipo: 'incisivo', tipoDentadura: 'permanente', estado: {}, intervenciones: [], historial: [] },
+  { id: 23, posX: 522, posY: 405.5999984741211, tipo: 'canino', tipoDentadura: 'permanente', estado: {}, intervenciones: [], historial: [] },
+  { id: 24, posX: 514.3541564941406, posY: 358.8576354980469, tipo: 'premolar', tipoDentadura: 'permanente', estado: {}, intervenciones: [], historial: [] },
+  { id: 25, posX: 395, posY: 580.5999984741211, tipo: 'premolar', tipoDentadura: 'permanente', estado: {}, intervenciones: [], historial: [] },
+  { id: 26, posX: 363, posY: 570.1999969482422, tipo: 'molar', tipoDentadura: 'permanente', estado: {}, intervenciones: [], historial: [] },
+  { id: 27, posX: 338, posY: 550.1999969482422, tipo: 'molar', tipoDentadura: 'permanente', estado: {}, intervenciones: [], historial: [] },
+  { id: 28, posX: 323, posY: 526.1999969482422, tipo: 'molar', tipoDentadura: 'permanente', estado: {}, intervenciones: [], historial: [] },
+  { id: 29, posX: 312, posY: 489.5999984741211, tipo: 'molar', tipoDentadura: 'permanente', estado: {}, intervenciones: [], historial: [] },
+  { id: 30, posX: 308, posY: 451.5999984741211, tipo: 'molar', tipoDentadura: 'permanente', estado: {}, intervenciones: [], historial: [] },
+  { id: 18, posX: 464, posY: 569.5999984741211, tipo: 'molar', tipoDentadura: 'permanente', estado: {}, intervenciones: [], historial: [] },
+  { id: 17, posX: 429, posY: 580.5999984741211, tipo: 'molar', tipoDentadura: 'permanente', estado: {}, intervenciones: [], historial: [] },
+  { id: 16, posX: 508.3541564941406, posY: 259.8576354980469, tipo: 'molar', tipoDentadura: 'permanente', estado: {}, intervenciones: [], historial: [] },
+  { id: 15, posX: 517.3541564941406, posY: 212.85763549804688, tipo: 'premolar', tipoDentadura: 'permanente', estado: {}, intervenciones: [], historial: [] },
+  { id: 14, posX: 514.3541564941406, posY: 169.85763549804688, tipo: 'premolar', tipoDentadura: 'permanente', estado: {}, intervenciones: [], historial: [] },
+  { id: 13, posX: 508, posY: 130.4000015258789, tipo: 'canino', tipoDentadura: 'permanente', estado: {}, intervenciones: [], historial: [] },
+  { id: 12, posX: 496, posY: 96.4000015258789, tipo: 'incisivo', tipoDentadura: 'permanente', estado: {}, intervenciones: [], historial: [] },
+  { id: 11, posX: 480, posY: 69.4000015258789, tipo: 'incisivo', tipoDentadura: 'permanente', estado: {}, intervenciones: [], historial: [] },
+  { id: 31, posX: 302, posY: 408.5999984741211, tipo: 'incisivo', tipoDentadura: 'permanente', estado: {}, intervenciones: [], historial: [] },
+  { id: 32, posX: 310, posY: 361.5999984741211, tipo: 'incisivo', tipoDentadura: 'permanente', estado: {}, intervenciones: [], historial: [] },
+  { id: 33, posX: 0, posY: 0, tipo: 'canino', tipoDentadura: 'permanente', estado: {}, intervenciones: [], historial: [] },
+  { id: 34, posX: 0, posY: 0, tipo: 'premolar', tipoDentadura: 'permanente', estado: {}, intervenciones: [], historial: [] },
+  { id: 35, posX: 0, posY: 0, tipo: 'premolar', tipoDentadura: 'permanente', estado: {}, intervenciones: [], historial: [] },
+  { id: 36, posX: 0, posY: 0, tipo: 'molar', tipoDentadura: 'permanente', estado: {}, intervenciones: [], historial: [] },
+  { id: 37, posX: 0, posY: 0, tipo: 'molar', tipoDentadura: 'permanente', estado: {}, intervenciones: [], historial: [] },
+  { id: 38, posX: 0, posY: 0, tipo: 'molar', tipoDentadura: 'permanente', estado: {}, intervenciones: [], historial: [] },
+  { id: 41, posX: 0, posY: 0, tipo: 'incisivo', tipoDentadura: 'permanente', estado: {}, intervenciones: [], historial: [] },
+  { id: 42, posX: 0, posY: 0, tipo: 'incisivo', tipoDentadura: 'permanente', estado: {}, intervenciones: [], historial: [] },
+  { id: 43, posX: 0, posY: 0, tipo: 'canino', tipoDentadura: 'permanente', estado: {}, intervenciones: [], historial: [] },
+  { id: 44, posX: 0, posY: 0, tipo: 'premolar', tipoDentadura: 'permanente', estado: {}, intervenciones: [], historial: [] },
+  { id: 45, posX: 0, posY: 0, tipo: 'premolar', tipoDentadura: 'permanente', estado: {}, intervenciones: [], historial: [] },
+  { id: 46, posX: 0, posY: 0, tipo: 'molar', tipoDentadura: 'permanente', estado: {}, intervenciones: [], historial: [] },
+  { id: 47, posX: 0, posY: 0, tipo: 'molar', tipoDentadura: 'permanente', estado: {}, intervenciones: [], historial: [] },
+  { id: 48, posX: 0, posY: 0, tipo: 'molar', tipoDentadura: 'permanente', estado: {}, intervenciones: [], historial: [] },
+  { id: 55, posX: 0, posY: 0, tipo: 'molar', tipoDentadura: 'temporal', estado: {}, intervenciones: [], historial: [] },
+  { id: 54, posX: 0, posY: 0, tipo: 'molar', tipoDentadura: 'temporal', estado: {}, intervenciones: [], historial: [] },
+  { id: 53, posX: 0, posY: 0, tipo: 'canino', tipoDentadura: 'temporal', estado: {}, intervenciones: [], historial: [] },
+  { id: 52, posX: 0, posY: 0, tipo: 'incisivo', tipoDentadura: 'temporal', estado: {}, intervenciones: [], historial: [] },
+  { id: 51, posX: 0, posY: 0, tipo: 'incisivo', tipoDentadura: 'temporal', estado: {}, intervenciones: [], historial: [] },
+  { id: 61, posX: 0, posY: 0, tipo: 'incisivo', tipoDentadura: 'temporal', estado: {}, intervenciones: [], historial: [] },
+  { id: 62, posX: 0, posY: 0, tipo: 'incisivo', tipoDentadura: 'temporal', estado: {}, intervenciones: [], historial: [] },
+  { id: 63, posX: 0, posY: 0, tipo: 'canino', tipoDentadura: 'temporal', estado: {}, intervenciones: [], historial: [] },
+  { id: 64, posX: 0, posY: 0, tipo: 'molar', tipoDentadura: 'temporal', estado: {}, intervenciones: [], historial: [] },
+  { id: 65, posX: 0, posY: 0, tipo: 'molar', tipoDentadura: 'temporal', estado: {}, intervenciones: [], historial: [] },
+  { id: 85, posX: 0, posY: 0, tipo: 'incisivo', tipoDentadura: 'temporal', estado: {}, intervenciones: [], historial: [] },
+  { id: 84, posX: 0, posY: 0, tipo: 'incisivo', tipoDentadura: 'temporal', estado: {}, intervenciones: [], historial: [] },
+  { id: 83, posX: 0, posY: 0, tipo: 'canino', tipoDentadura: 'temporal', estado: {}, intervenciones: [], historial: [] },
+  { id: 82, posX: 0, posY: 0, tipo: 'molar', tipoDentadura: 'temporal', estado: {}, intervenciones: [], historial: [] },
+  { id: 81, posX: 0, posY: 0, tipo: 'molar', tipoDentadura: 'temporal', estado: {}, intervenciones: [], historial: [] },
+  { id: 71, posX: 0, posY: 0, tipo: 'molar', tipoDentadura: 'temporal', estado: {}, intervenciones: [], historial: [] },
+  { id: 72, posX: 0, posY: 0, tipo: 'molar', tipoDentadura: 'temporal', estado: {}, intervenciones: [], historial: [] },
+  { id: 73, posX: 0, posY: 0, tipo: 'canino', tipoDentadura: 'temporal', estado: {}, intervenciones: [], historial: [] },
+  { id: 74, posX: 0, posY: 0, tipo: 'incisivo', tipoDentadura: 'temporal', estado: {}, intervenciones: [], historial: [] },
+  { id: 75, posX: 0, posY: 0, tipo: 'incisivo', tipoDentadura: 'temporal', estado: {}, intervenciones: [], historial: [] }
+];
+
+// Configuración de tipos de dientes (mantener para compatibilidad)
+export const TOOTH_TYPES = {
+  // Dientes adicionales (1-10)
+  1: 'molar', 2: 'molar', 3: 'molar', 4: 'premolar', 5: 'premolar',
+  6: 'canino', 7: 'incisivo', 8: 'incisivo', 9: 'incisivo', 10: 'incisivo',
+  // Superior Derecho (11-18)
+  11: 'incisivo', 12: 'incisivo', 13: 'canino', 14: 'premolar', 15: 'premolar',
+  16: 'molar', 17: 'molar', 18: 'molar',
+  // Superior Izquierdo (21-28)
+  21: 'incisivo', 22: 'incisivo', 23: 'canino', 24: 'premolar', 25: 'premolar',
+  26: 'molar', 27: 'molar', 28: 'molar',
+  // Dientes adicionales (29-30)
+  29: 'molar', 30: 'molar',
+  // Inferior Izquierdo (31-38)
+  31: 'incisivo', 32: 'incisivo', 33: 'canino', 34: 'premolar', 35: 'premolar',
+  36: 'molar', 37: 'molar', 38: 'molar',
+  // Inferior Derecho (41-48)
+  41: 'incisivo', 42: 'incisivo', 43: 'canino', 44: 'premolar', 45: 'premolar',
+  46: 'molar', 47: 'molar', 48: 'molar',
+  // Temporales (51-85)
+  51: 'incisivo', 52: 'incisivo', 53: 'canino', 54: 'molar', 55: 'molar',
+  61: 'incisivo', 62: 'incisivo', 63: 'canino', 64: 'molar', 65: 'molar',
+  71: 'molar', 72: 'molar', 73: 'canino', 74: 'incisivo', 75: 'incisivo',
+  81: 'molar', 82: 'molar', 83: 'canino', 84: 'incisivo', 85: 'incisivo'
+} as const;
+
+// Función para obtener la posición de un diente desde la configuración completa
+export const getToothPosition = (number: number): { posX: number; posY: number } => {
+  const diente = TODOS_LOS_DIENTES.find(d => d.id === number);
+  if (diente) {
+    return { posX: diente.posX, posY: diente.posY };
+  }
+  return { posX: 0, posY: 0 };
+};
+
+// Función para obtener el tipo de diente
+export const getToothType = (number: number): 'incisivo' | 'canino' | 'premolar' | 'molar' => {
+  const diente = TODOS_LOS_DIENTES.find(d => d.id === number);
+  if (diente) {
+    return diente.tipo as 'incisivo' | 'canino' | 'premolar' | 'molar';
+  }
+  return 'incisivo';
+};
+
+// Función para obtener el cuadrante de un diente
+export const getToothCuadrante = (number: number): 'superior-derecho' | 'superior-izquierdo' | 'inferior-derecho' | 'inferior-izquierdo' => {
+  // Dientes adicionales (1-10) - considerados como superior-derecho
+  if (number >= 1 && number <= 10) return 'superior-derecho';
+  if (number >= 11 && number <= 18) return 'superior-derecho';
+  if (number >= 21 && number <= 28) return 'superior-izquierdo';
+  // Dientes adicionales (29-30) - considerados como superior-izquierdo
+  if (number >= 29 && number <= 30) return 'superior-izquierdo';
+  if (number >= 41 && number <= 48) return 'inferior-derecho';
+  if (number >= 31 && number <= 38) return 'inferior-izquierdo';
+  // Temporales
+  if (number >= 51 && number <= 55) return 'superior-derecho';
+  if (number >= 61 && number <= 65) return 'superior-izquierdo';
+  if (number >= 81 && number <= 85) return 'inferior-derecho';
+  if (number >= 71 && number <= 75) return 'inferior-izquierdo';
+  return 'superior-derecho';
+};
+
+// Función para determinar si es dentadura permanente o temporal
+export const getTipoDentadura = (number: number): 'permanente' | 'temporal' => {
+  const diente = TODOS_LOS_DIENTES.find(d => d.id === number);
+  if (diente) {
+    return diente.tipoDentadura as 'permanente' | 'temporal';
+  }
+  return 'permanente';
+};
+
+// Función para filtrar dientes por tipo de dentadura
+export const getTeethByType = (tipoDentadura: 'permanente' | 'temporal'): typeof TODOS_LOS_DIENTES => {
+  return TODOS_LOS_DIENTES.filter(diente => diente.tipoDentadura === tipoDentadura);
+};
+
+// Función para calcular el ángulo de rotación de un diente basado en su posición en la arcada
+export const getToothRotation = (number: number): number => {
+  const cuadrante = getToothCuadrante(number);
+  const position = getToothPosition(number);
+  
+  // Centro de la arcada (aproximadamente en el centro del odontograma)
+  const centerX = 410; // Centro aproximado del odontograma
+  
+  // Calcular el ángulo basado en la posición horizontal relativa al centro
+  const relativeX = position.posX - centerX;
+  
+  // Mapear la posición relativa a un ángulo de rotación
+  // Los dientes más alejados del centro tendrán más rotación
+  let rotation = 0;
+  
+  if (cuadrante === 'superior-derecho' || cuadrante === 'superior-izquierdo') {
+    // Arcada superior - rotación más agresiva
+    if (Math.abs(relativeX) < 30) {
+      rotation = 0; // Dientes centrales sin rotación
+    } else if (Math.abs(relativeX) < 100) {
+      rotation = relativeX > 0 ? 25 : -25; // Rotación moderada
+    } else if (Math.abs(relativeX) < 200) {
+      rotation = relativeX > 0 ? 40 : -40; // Rotación más pronunciada
+    } else {
+      rotation = relativeX > 0 ? 55 : -55; // Rotación máxima
+    }
+  } else {
+    // Arcada inferior - rotación inversa más agresiva
+    if (Math.abs(relativeX) < 30) {
+      rotation = 0; // Dientes centrales sin rotación
+    } else if (Math.abs(relativeX) < 100) {
+      rotation = relativeX > 0 ? -25 : 25; // Rotación moderada inversa
+    } else if (Math.abs(relativeX) < 200) {
+      rotation = relativeX > 0 ? -40 : 40; // Rotación más pronunciada inversa
+    } else {
+      rotation = relativeX > 0 ? -55 : 55; // Rotación máxima inversa
+    }
+  }
+  
+  return rotation;
+};
